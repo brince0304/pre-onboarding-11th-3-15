@@ -5,17 +5,13 @@ import { IGithubService } from '../services/githubService';
 const IssueContext = createContext<IIssueContextReturn>({} as IIssueContextReturn);
 export const useIssues = () => useContext(IssueContext);
 
-const IssueProvider = ({children,issueService}: {children: ReactNode, issueService: IGithubService}) => {
+const IssueProvider = ({ children, issueService }: { children: ReactNode; issueService: IGithubService }) => {
   const getIssuesByPage = issueService.getIssuesByPage.bind(issueService);
-  return (
-    <IssueContext.Provider value={{getIssuesByPage}}>
-      {children}
-    </IssueContext.Provider>
-  )
-}
+  return <IssueContext.Provider value={{ getIssuesByPage }}>{children}</IssueContext.Provider>;
+};
 
 interface IIssueContextReturn {
-  getIssuesByPage : (page: number) => Promise<IIssue[]>
+  getIssuesByPage: (page: number) => Promise<IIssue[]>;
 }
 
-export {IssueContext, IssueProvider};
+export { IssueContext, IssueProvider };

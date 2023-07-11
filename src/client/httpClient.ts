@@ -1,4 +1,4 @@
-export  interface IHttpClient {
+export interface IHttpClient {
   fetch(url: string, options: any): Promise<any>;
   get(url: string): Promise<any>;
 }
@@ -11,14 +11,14 @@ export class HttpClient implements IHttpClient {
     this.baseURL = baseURL;
     this.#apiKey = apiKey;
   }
-   async fetch(url: string, options: any): Promise<any> {
-    const response = await fetch(`${this.baseURL}${url}`,{
+  async fetch(url: string, options: any): Promise<any> {
+    const response = await fetch(`${this.baseURL}${url}`, {
       ...options,
       headers: {
         ...options.headers,
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${this.#apiKey}`,
-      }
+      },
     });
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -27,18 +27,18 @@ export class HttpClient implements IHttpClient {
   }
 
   async get(url: string): Promise<any> {
-    return await this.fetch(url, { method: "GET" });
+    return await this.fetch(url, { method: 'GET' });
   }
 
   async post(url: string, body: any): Promise<any> {
-    return await this.fetch(url, { method: "POST", body: JSON.stringify(body) });
+    return await this.fetch(url, { method: 'POST', body: JSON.stringify(body) });
   }
 
   async put(url: string, body: any): Promise<any> {
-    return await this.fetch(url, { method: "PUT", body: JSON.stringify(body) });
+    return await this.fetch(url, { method: 'PUT', body: JSON.stringify(body) });
   }
 
   async delete(url: string): Promise<any> {
-    return await this.fetch(url, { method: "DELETE" });
+    return await this.fetch(url, { method: 'DELETE' });
   }
 }

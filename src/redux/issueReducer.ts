@@ -2,7 +2,7 @@ import { IIssue } from '../interfaces/IIssue';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useIssues } from '../context/IssueContext';
 
-interface IssueState{
+interface IssueState {
   page: number;
   issues: IIssue[];
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
@@ -18,13 +18,10 @@ const initialState = {
   hasMore: true,
 } as IssueState;
 
-export const getIssuesByPage = createAsyncThunk(
-  'issue/getIssues',
-  async (page: number, thunkAPI) => {
-    const { getIssuesByPage } = useIssues();
-    return await getIssuesByPage(page);
-  }
-);
+export const getIssuesByPage = createAsyncThunk('issue/getIssues', async (page: number, thunkAPI) => {
+  const { getIssuesByPage } = useIssues();
+  return await getIssuesByPage(page);
+});
 
 export const issueReducer = createSlice({
   name: 'issue',
@@ -42,7 +39,7 @@ export const issueReducer = createSlice({
     },
     setIssues: (state, action) => {
       state.issues = action.payload;
-    }
+    },
   },
   extraReducers: {
     [getIssuesByPage.pending.type]: (state, action) => {
@@ -57,8 +54,8 @@ export const issueReducer = createSlice({
     [getIssuesByPage.rejected.type]: (state, action) => {
       state.loading = 'failed';
       state.error = action.error.message;
-    }
-  }
-  });
+    },
+  },
+});
 
 export const { reset, setPage, setIssues } = issueReducer.actions;

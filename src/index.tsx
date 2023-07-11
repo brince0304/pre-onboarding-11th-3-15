@@ -9,9 +9,7 @@ import { HttpClient } from './client/httpClient';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const baseUrl = 'https://api.github.com/';
 const apiKey = process.env.REACT_APP_GITHUB_API_KEY as string;
@@ -22,9 +20,9 @@ const issueService = new GithubService(httpClient, owner, repo);
 root.render(
   <IssueProvider issueService={issueService}>
     <Provider store={store}>
-    <App />
+      <App />
     </Provider>
-</IssueProvider>
+  </IssueProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,7 +2,7 @@ import { IIssue } from '../interfaces/IIssue';
 import { IHttpClient } from '../client/httpClient';
 
 export interface IGithubService {
-  getIssuesByPage(page:number): Promise<IIssue[]>;
+  getIssuesByPage(page: number): Promise<IIssue[]>;
 }
 
 export class GithubService implements IGithubService {
@@ -14,13 +14,10 @@ export class GithubService implements IGithubService {
     this.owner = owner;
     this.repo = repo;
   }
-  getIssuesURL(page:number): string {
-    return getIssuesURL
-      .replace('{owner}', this.owner)
-      .replace('{repo}', this.repo)
-      .replace('{page}', page.toString());
+  getIssuesURL(page: number): string {
+    return getIssuesURL.replace('{owner}', this.owner).replace('{repo}', this.repo).replace('{page}', page.toString());
   }
-  async getIssuesByPage(page:number): Promise<IIssue[]> {
+  async getIssuesByPage(page: number): Promise<IIssue[]> {
     return await this.httpClient.get(this.getIssuesURL(page));
   }
 }
