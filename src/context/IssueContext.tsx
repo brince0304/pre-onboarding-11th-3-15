@@ -12,32 +12,40 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
   const getIssuesByPage = issueService.getIssuesByPage.bind(issueService);
   const issueState = useSelector((state: RootState) => state.issueReducer);
   const dispatch = useAppDispatch();
-  const { loading, error, issues, page,hasMore } = issueState;
+  const { loading, error, issues, page, hasMore } = issueState;
   const handleUpPage = () => {
     dispatch(setPage(page + 1));
-  }
+  };
   const handleGetIssues = async () => {
-    dispatch(getIssues({
-      page: page,
-      getIssuesByPage: getIssuesByPage,
-    }))
-  }
+    dispatch(
+      getIssues({
+        page: page,
+        getIssuesByPage: getIssuesByPage,
+      }),
+    );
+  };
 
-  return <IssueContext.Provider value={{
-    handleGetIssues,
-    loading,
-    error,
-    issues,
-    page,
-    hasMore,
-    handleUpPage
-  }}>{children}</IssueContext.Provider>;
+  return (
+    <IssueContext.Provider
+      value={{
+        handleGetIssues,
+        loading,
+        error,
+        issues,
+        page,
+        hasMore,
+        handleUpPage,
+      }}
+    >
+      {children}
+    </IssueContext.Provider>
+  );
 };
 
 interface IIssueContextReturn {
   handleGetIssues: () => void;
   loading?: string;
-  error?: string  | null;
+  error?: string | null;
   issues?: IIssue;
   page?: number;
   hasMore?: boolean;
