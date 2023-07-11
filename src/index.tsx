@@ -18,11 +18,11 @@ const repo = process.env.REACT_APP_GITHUB_REPO as string;
 const httpClient = new HttpClient(baseUrl, apiKey);
 const issueService = new GithubService(httpClient, owner, repo);
 root.render(
-  <IssueProvider issueService={issueService}>
     <Provider store={store}>
+      <IssueProvider issueService={issueService}>
       <PrivateRouterProvider />
+      </IssueProvider>,
     </Provider>
-  </IssueProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
