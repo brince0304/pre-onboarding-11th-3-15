@@ -7,9 +7,9 @@ const Issues = () => {
   return (
     <div>
       <Header repositoryName={repo} owner={owner} />
-      <IssueList/>
+      <IssueList />
     </div>
   );
-}
+};
 
 export default Issues;
