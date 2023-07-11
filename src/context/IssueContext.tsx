@@ -11,7 +11,7 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
 };
 
 interface IIssueContextReturn {
-  getIssuesByPage: (page: number) => Promise<IIssue[]>;
+  getIssuesByPage: (page: number) => Promise<IIssue>;
 }
 
 export { IssueContext, IssueProvider };

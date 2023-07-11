@@ -1,30 +1,32 @@
 import { IIssue } from '../interfaces/IIssue';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { useIssues } from '../context/IssueContext';
 
 interface IssueState {
   page: number;
-  issues: IIssue[];
+  issues: IIssue;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: string | null;
   hasMore: boolean;
 }
 
-const initialState = {
+export const initialState = {
   page: 1,
-  issues: [] as IIssue[],
+  issues: [] as IIssue,
   loading: 'idle',
   error: null,
   hasMore: true,
 } as IssueState;
 
-export const getIssuesByPage = createAsyncThunk('issue/getIssues', async (page: number, thunkAPI) => {
-  const { getIssuesByPage } = useIssues();
-  return await getIssuesByPage(page);
-});
+export const getIssues = createAsyncThunk(
+  'issues/getIssues',
+
+  async (props: { getIssuesByPage: (page: number) => Promise<IIssue>; page: number }) => {
+    return await props.getIssuesByPage(props.page);
+  },
+);
 
 export const issueReducer = createSlice({
-  name: 'issue',
+  name: 'issues',
   initialState,
   reducers: {
     reset: (state) => {
@@ -41,20 +43,20 @@ export const issueReducer = createSlice({
       state.issues = action.payload;
     },
   },
-  extraReducers: {
-    [getIssuesByPage.pending.type]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(getIssues.pending, (state) => {
       state.loading = 'pending';
-    },
-    [getIssuesByPage.fulfilled.type]: (state, action) => {
+    });
+    builder.addCase(getIssues.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.issues = state.issues.concat(action.payload);
       state.page = state.page + 1;
       state.hasMore = action.payload.length > 0;
-    },
-    [getIssuesByPage.rejected.type]: (state, action) => {
+    });
+    builder.addCase(getIssues.rejected, (state, action) => {
       state.loading = 'failed';
-      state.error = action.error.message;
-    },
+      state.error = action.error.message as string;
+    });
   },
 });
 
