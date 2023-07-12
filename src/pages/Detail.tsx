@@ -5,6 +5,7 @@ import { IIssueChild } from '../interfaces/IIssues';
 import { useIssues } from '../context/IssueContext';
 import Header from '../components/common/Header';
 import IssueLoading from '../components/IssueDetails/IssueLoading';
+import IssueError from '../components/IssueDetails/IssueError';
 
 const Detail = () => {
   const { issueNumber } = useParams();
@@ -35,7 +36,7 @@ const Detail = () => {
       <Header refreshCallback={handleRefreshCallback} />
       {issue && <IssueDetails issue={issue} />}
       {loading === 'pending' && <IssueLoading />}
-      {loading === 'failed' && <div>error...</div>}
+      {loading === 'failed' && <IssueError/>}
     </div>
   );
 };

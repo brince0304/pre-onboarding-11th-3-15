@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import React from 'react';
 import Issues from '../pages/Issues';
 import App from '../App';
@@ -22,6 +22,10 @@ const browserRouter = createBrowserRouter([
         path: '/issues/:issueNumber',
         element: <Detail />,
       },
+      {
+        path: '*',
+        element: <Navigate to="/" />,
+      }
     ],
   },
 ]);
