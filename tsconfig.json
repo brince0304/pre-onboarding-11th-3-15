@@ -17,14 +17,13 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["src/*"],
-        "@components/*": ["src/components/*"],
-        "@pages/*": ["src/pages/*"],
-        "@assets/*": ["src/styles/*"],
-        "@utils/*": ["src/utils/*"],
-        "@context/*": ["src/context/*"],
-        "@services/*": ["src/services/*"],
-        "@redux/*": ["src/redux/*"],
-
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@context/*": ["src/context/*"],
+      "@services/*": ["src/services/*"],
+      "@redux/*": ["src/redux/*"]
     },
     "baseUrl": "src"
   },
