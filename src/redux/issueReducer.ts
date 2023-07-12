@@ -1,5 +1,6 @@
 import { IIssue } from '../interfaces/IIssue';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 interface IssueState {
   page: number;
@@ -20,8 +21,18 @@ export const initialState = {
 export const getIssues = createAsyncThunk(
   'issues/getIssues',
 
-  async (props: { getIssuesByPage: (page: number) => Promise<IIssue>; page: number }) => {
-    return await props.getIssuesByPage(props.page);
+  async (getIssues: (page: number) => Promise<IIssue>, { getState }) => {
+    const state = getState() as RootState;
+    return await getIssues(state.issueReducer.page);
+  },
+  {
+    condition: (props, { getState }) => {
+      const state = getState() as RootState;
+      return (
+        (state.issueReducer.loading === 'idle' || state.issueReducer.loading === 'succeeded') &&
+        state.issueReducer.hasMore
+      );
+    },
   },
 );
 
@@ -42,6 +53,9 @@ export const issueReducer = createSlice({
     setIssues: (state, action) => {
       state.issues = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getIssues.pending, (state) => {
@@ -50,14 +64,15 @@ export const issueReducer = createSlice({
     builder.addCase(getIssues.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.issues = state.issues.concat(action.payload);
-      state.page = state.page + 1;
+      state.page += 1;
       state.hasMore = action.payload.length > 0;
     });
     builder.addCase(getIssues.rejected, (state, action) => {
       state.loading = 'failed';
       state.error = action.error.message as string;
+      state.hasMore = false;
     });
   },
 });
 
-export const { reset, setPage, setIssues } = issueReducer.actions;
+export const { reset, setPage, setIssues, setError } = issueReducer.actions;

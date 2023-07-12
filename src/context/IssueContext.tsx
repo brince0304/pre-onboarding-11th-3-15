@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext } from 'react';
 import { IGithubService } from '../services/githubService';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../redux/store';
-import { getIssues, setPage } from '../redux/issueReducer';
+import { getIssues, reset, setError, setPage } from '../redux/issueReducer';
 
 const IssueContext = createContext<IIssueContextReturn>({} as IIssueContextReturn);
 export const useIssues = () => useContext(IssueContext);
@@ -16,13 +16,17 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
   const handleUpPage = () => {
     dispatch(setPage(page + 1));
   };
+  const handleResetPage = async () => {
+    dispatch(reset());
+    await handleGetIssues();
+  };
+
   const handleGetIssues = async () => {
-    dispatch(
-      getIssues({
-        page: page,
-        getIssuesByPage: getIssuesByPage,
-      }),
-    );
+    try {
+      await dispatch(getIssues(getIssuesByPage)).unwrap();
+    } catch (e) {
+      dispatch(setError(e));
+    }
   };
 
   return (
@@ -35,6 +39,7 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
         page,
         hasMore,
         handleUpPage,
+        handleResetPage,
       }}
     >
       {children}
@@ -50,6 +55,7 @@ interface IIssueContextReturn {
   page?: number;
   hasMore?: boolean;
   handleUpPage?: () => void;
+  handleResetPage?: () => void;
 }
 
 export { IssueContext, IssueProvider };
