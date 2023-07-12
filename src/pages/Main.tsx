@@ -1,4 +1,4 @@
-import RepositoryThumbnail from '../components/RepositoryThumbnail';
+import RepositoryThumbnail from '../components/common/list/RepositoryThumbnail';
 
 const Main = () => {
   const repo = process.env.REACT_APP_GITHUB_REPO as string;

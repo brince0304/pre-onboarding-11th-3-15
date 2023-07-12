@@ -2,11 +2,12 @@ import IssueItem from './IssueItem/IssueItem';
 import { useIssues } from '../context/IssueContext';
 import { useEffect, useRef } from 'react';
 import * as S from './IssueList.style';
-import AdBox from './common/AdBox';
-import Loading from './Loading';
+import AdBox from './common/list/AdBox';
+import Loading from './common/list/Loading';
+import HasNoMore from './common/list/HasNoMore';
 
 const IssueList = () => {
-  const { handleGetIssues, issues, loading } = useIssues();
+  const { handleGetIssues, issues, loading, hasMore } = useIssues();
 
   const adBoxProps = {
     alt: '광고',
@@ -33,6 +34,7 @@ const IssueList = () => {
         observer.unobserve(observerRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleObserver = (entries: IntersectionObserverEntry[]) => {
@@ -53,6 +55,7 @@ const IssueList = () => {
           }
         })}
       {loading === 'pending' && <Loading />}
+      {!hasMore && <HasNoMore />}
       {loading === 'failed' && <div>에러 발생</div>}
       <div id="bottom" ref={observerRef}></div>
     </S.Container>
