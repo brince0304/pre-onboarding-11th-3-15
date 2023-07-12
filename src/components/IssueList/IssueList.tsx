@@ -1,10 +1,11 @@
 import IssueItem from './IssueItem/IssueItem';
-import { useIssues } from '../context/IssueContext';
+import { useIssues } from '../../context/IssueContext';
 import { useEffect, useRef } from 'react';
 import * as S from './IssueList.style';
-import AdBox from './common/list/AdBox';
-import Loading from './common/list/Loading';
-import HasNoMore from './common/list/HasNoMore';
+import AdBox from '../common/list/AdBox';
+import Loading from '../common/list/Loading';
+import HasNoMore from '../common/list/HasNoMore';
+import Error from '../common/list/Error';
 
 const IssueList = () => {
   const { handleGetIssues, issues, loading, hasMore } = useIssues();
@@ -17,7 +18,7 @@ const IssueList = () => {
     height: '100px',
   };
 
-  const observerRef = useRef<HTMLDivElement>(null); // Intersection Observer의 ref 설정
+  const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observerOptions = {
@@ -31,6 +32,7 @@ const IssueList = () => {
     }
     return () => {
       if (observerRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(observerRef.current);
       }
     };
@@ -48,15 +50,15 @@ const IssueList = () => {
     <S.Container>
       {issues &&
         issues.flatMap((issue, index) => {
-          if (index % 5 === 0 && index !== 0) {
+          if (index % 4 === 0 && index !== 0) {
             return [<AdBox {...adBoxProps} key={index + 'ad'} />, <IssueItem issue={issue} key={index} />];
           } else {
             return <IssueItem issue={issue} key={index} />;
           }
         })}
       {loading === 'pending' && <Loading />}
-      {!hasMore && <HasNoMore />}
-      {loading === 'failed' && <div>에러 발생</div>}
+      {!hasMore && loading !== 'failed' && <HasNoMore />}
+      {loading === 'failed' && <Error />}
       <div id="bottom" ref={observerRef}></div>
     </S.Container>
   );

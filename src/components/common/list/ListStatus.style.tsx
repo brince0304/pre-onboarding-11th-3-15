@@ -8,3 +8,8 @@ export const Container = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+export const ErrorText = styled.span`
+  color: #e11d62;
+  font-size: 13px;
+`;

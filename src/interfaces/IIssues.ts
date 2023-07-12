@@ -1,4 +1,4 @@
-export type IIssue = IIssueChild[];
+export type IIssues = IIssueChild[];
 export interface IIssueChildUser {
   login: string;
   id: number;

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ListItemButton } from '@mui/material';
 
 export const IssueTitleBox = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ export const IssueTitleInfo = styled.div`
   gap: 5px;
 `;
 
-export const IssueTitleContainer = styled.div`
+export const IssueTitleContainer = styled(ListItemButton)`
   display: flex;
   flex-direction: row;
   align-items: center;

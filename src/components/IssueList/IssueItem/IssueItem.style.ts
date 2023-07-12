@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const IssueItem = styled(ListItem)`
   width: 100%;
-  height: 100px;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
