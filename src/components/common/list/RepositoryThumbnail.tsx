@@ -1,9 +1,8 @@
 import { Button, Tooltip } from '@mui/material';
-import uuid from 'react-uuid';
 import { useNavigate } from 'react-router-dom';
 
 const RepositoryThumbnail = ({ repo, owner }: IRepositoryThumbnailProps) => {
-  const hash = uuid();
+  const uuid = '433b65fc-9dfe-3d40-acc5-8ee55c71e877';
   const navigate = useNavigate();
   const handleClickThumbnail = () => {
     navigate('/issues');
@@ -16,7 +15,7 @@ const RepositoryThumbnail = ({ repo, owner }: IRepositoryThumbnailProps) => {
         }}
         onClick={handleClickThumbnail}
       >
-        <img src={`https://opengraph.githubassets.com/${hash}/${owner}/${repo}`} alt="thumbnail" />
+        <img src={`https://opengraph.githubassets.com/${uuid}/${owner}/${repo}`} alt="thumbnail" />
       </Button>
     </Tooltip>
   );

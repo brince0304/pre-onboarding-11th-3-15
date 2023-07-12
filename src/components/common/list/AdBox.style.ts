@@ -19,5 +19,4 @@ export const Container = styled.div`
       transition: all 0.3s ease;
     }
   }
-  border-bottom: 1px solid #e1e4e8;
 `;

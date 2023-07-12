@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import * as S from './Loading.style';
+import * as S from './ListStatus.style';
 const Loading = () => {
   return (
     <S.Container>

@@ -1,18 +1,13 @@
 import Header from '../components/common/Header';
-import IssueList from '../components/IssueList';
+import IssueList from '../components/IssueList/IssueList';
 import { Container } from '@mui/material';
+import { useIssues } from '../context/IssueContext';
 
 const Issues = () => {
-  const repo = process.env.REACT_APP_GITHUB_REPO as string;
-  const owner = process.env.REACT_APP_GITHUB_OWNER as string;
+  const { handleResetPage } = useIssues();
   return (
-    <Container
-      sx={{
-        marginTop: '80px',
-        marginBottom: '2rem',
-      }}
-    >
-      <Header repositoryName={repo} owner={owner} />
+    <Container>
+      <Header refreshCallback={handleResetPage} />
       <IssueList />
     </Container>
   );

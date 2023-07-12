@@ -1,4 +1,4 @@
-import * as S from './Loading.style';
+import * as S from './ListStatus.style';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const HasNoMore = () => {
