@@ -3,6 +3,7 @@ import React from 'react';
 import Issues from '../pages/Issues';
 import App from '../App';
 import Main from '../pages/Main';
+import Detail from '../pages/Detail';
 
 const browserRouter = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const browserRouter = createBrowserRouter([
       {
         path: '/issues',
         element: <Issues />,
+      },
+      {
+        path: '/issues/:issueNumber',
+        element: <Detail />,
       },
     ],
   },
