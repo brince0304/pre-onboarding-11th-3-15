@@ -17,24 +17,15 @@ const IssueDetails = ({ issue }: IIssueDetailsProps) => {
   };
   return (
     <S.Container>
+      <S.FixedContainer>
       <IssueDetailTitle {...titleProps} />
-      <IssueReactions {...issue.reactions} />
+        <IssueReactions {...issue.reactions} />
+      </S.FixedContainer>
       <ReactMarkdown
         components={{
           img: ({ node, ...props }) => <img style={{ maxWidth: '100%' }} {...props} alt="" />,
           code: ({ node, ...props }) => (
-            <code
-              style={{
-                fontFamily: "'Courier New', monospace",
-                fontSize: '14px',
-                backgroundColor: '#f7f7f7',
-                padding: '4px',
-                borderRadius: '4px',
-                color: '#333',
-                overflowX: 'auto',
-              }}
-              {...props}
-            />
+            <S.CodeBox{...props} />
           ),
         }}
         remarkPlugins={[remarkGfm]}
