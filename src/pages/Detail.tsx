@@ -22,6 +22,7 @@ const Detail = () => {
   useEffect(() => {
     fetch();
     handleScrollToTop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleRefreshCallback = async () => {
     setIssue(undefined);
