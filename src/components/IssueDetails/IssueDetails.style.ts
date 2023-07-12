@@ -26,7 +26,7 @@ export const FixedContainer = styled.div`
   border-bottom: 1px solid #e1e4e8;
   box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04);
   gap: 10px;
-  `;
+`;
 
 export const CodeBox = styled.code`
   font-family: 'Courier New', monospace;
@@ -36,5 +36,4 @@ export const CodeBox = styled.code`
   border-radius: 4px;
   color: #333;
   margin-top: 10px;
-
-`
+`;

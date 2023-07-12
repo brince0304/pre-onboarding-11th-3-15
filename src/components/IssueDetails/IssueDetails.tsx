@@ -18,15 +18,13 @@ const IssueDetails = ({ issue }: IIssueDetailsProps) => {
   return (
     <S.Container>
       <S.FixedContainer>
-      <IssueDetailTitle {...titleProps} />
+        <IssueDetailTitle {...titleProps} />
         <IssueReactions {...issue.reactions} />
       </S.FixedContainer>
       <ReactMarkdown
         components={{
           img: ({ node, ...props }) => <img style={{ maxWidth: '100%' }} {...props} alt="" />,
-          code: ({ node, ...props }) => (
-            <S.CodeBox{...props} />
-          ),
+          code: ({ node, ...props }) => <S.CodeBox {...props} />,
         }}
         remarkPlugins={[remarkGfm]}
       >
