@@ -1,7 +1,7 @@
 import * as S from './IssueDetailTitle.style';
 import { Avatar } from '@mui/material';
+import ForumIcon from '@mui/icons-material/Forum';
 import TagIcon from '@mui/icons-material/Tag';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { TitleInfo } from './IssueDetailTitle.style';
 const IssueDetailTitle = (props: IIssueDetailTitleProps) => {
   const { avatarUrl, title, issueNumber, author, createdAt, comments } = props;
@@ -22,10 +22,8 @@ const IssueDetailTitle = (props: IIssueDetailTitleProps) => {
         </S.Info>
       </TitleInfo>
       <S.Comments>
-        <span>
-          <ChatBubbleOutlineIcon />
-        </span>
-        <span>{comments}</span>
+        <ForumIcon sx={{ width: '15px', height: '15px' }} />
+        {comments}
       </S.Comments>
     </S.Container>
   );

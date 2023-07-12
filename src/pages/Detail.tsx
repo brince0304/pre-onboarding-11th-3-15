@@ -36,7 +36,7 @@ const Detail = () => {
       <Header refreshCallback={handleRefreshCallback} />
       {issue && <IssueDetails issue={issue} />}
       {loading === 'pending' && <IssueLoading />}
-      {loading === 'failed' && <IssueError/>}
+      {loading === 'failed' && <IssueError />}
     </div>
   );
 };

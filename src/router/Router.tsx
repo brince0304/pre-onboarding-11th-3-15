@@ -25,7 +25,7 @@ const browserRouter = createBrowserRouter([
       {
         path: '*',
         element: <Navigate to="/" />,
-      }
+      },
     ],
   },
 ]);
