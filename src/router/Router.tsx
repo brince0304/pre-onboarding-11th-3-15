@@ -1,16 +1,23 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Main from '../pages/Main';
 import React from 'react';
 import Issues from '../pages/Issues';
+import App from '../App';
+import Main from '../pages/Main';
 
 const browserRouter = createBrowserRouter([
   {
     path: '/',
-    element: <Main />,
-  },
-  {
-    path: '/issues',
-    element: <Issues />,
+    element: <App />,
+    children : [
+      {
+        index: true,
+        element: <Main />,
+      },
+      {
+        path: '/issues',
+        element: <Issues />,
+      }
+    ]
   },
 ]);
 
