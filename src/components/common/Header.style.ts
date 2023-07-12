@@ -31,3 +31,12 @@ export const RefreshButton = styled(IconButton)`
     transition: all 0.7s ease;
   }
 `;
+
+export const BackButton = styled(IconButton)`
+  opacity: 0.5;
+  margin-right: 10px;
+  &:hover {
+    opacity: 1;
+    transition: all 0.7s ease;
+  }
+`;
