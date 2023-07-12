@@ -22,7 +22,6 @@ root.render(
     <IssueProvider issueService={issueService}>
       <PrivateRouterProvider />
     </IssueProvider>
-    ,
   </Provider>,
 );
 

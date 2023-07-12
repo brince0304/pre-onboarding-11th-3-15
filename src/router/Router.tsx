@@ -8,7 +8,7 @@ const browserRouter = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children : [
+    children: [
       {
         index: true,
         element: <Main />,
@@ -16,8 +16,8 @@ const browserRouter = createBrowserRouter([
       {
         path: '/issues',
         element: <Issues />,
-      }
-    ]
+      },
+    ],
   },
 ]);
 
