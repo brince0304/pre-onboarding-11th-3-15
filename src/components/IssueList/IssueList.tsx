@@ -6,9 +6,13 @@ import AdBox from '../common/list/AdBox';
 import Loading from '../common/list/Loading';
 import HasNoMore from '../common/list/HasNoMore';
 import Error from '../common/list/Error';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 const IssueList = () => {
-  const { handleGetIssues, issues, loading, hasMore } = useIssues();
+  const issueState = useSelector((state: RootState) => state.issueReducer);
+  const { loading, issues, hasMore } = issueState;
+  const { handleGetIssues } = useIssues();
 
   const adBoxProps = {
     alt: '광고',
