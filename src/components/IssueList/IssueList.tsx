@@ -11,6 +11,10 @@ const IssueList = () => {
   const { handleGetIssues, issues, loading, hasMore } = useIssues();
   const observerRef = useIntersect(() => hasMore && handleGetIssues());
 
+  const isPending = loading === 'pending';
+  const hasNoMore = !hasMore && loading !== 'failed';
+  const isFail = loading === 'failed';
+
   const adBoxProps = {
     alt: '광고',
     src: 'https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100',
@@ -29,9 +33,9 @@ const IssueList = () => {
             return <IssueItem issue={issue} key={index} />;
           }
         })}
-      {loading === 'pending' && <Loading />}
-      {!hasMore && loading !== 'failed' && <HasNoMore />}
-      {loading === 'failed' && <Error />}
+      {isPending && <Loading />}
+      {hasNoMore && <HasNoMore />}
+      {isFail && <Error />}
       <div id="bottom" ref={observerRef}></div>
     </S.Container>
   );
