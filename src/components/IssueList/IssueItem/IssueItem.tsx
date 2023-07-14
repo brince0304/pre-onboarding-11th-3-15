@@ -4,6 +4,7 @@ import IssueDetailTitle from '../../IssueDetails/IssueDetailTitle/IssueDetailTit
 import { ListItemButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../../utils';
+import React, {useCallback} from "react";
 
 const IssueItem = ({ issue }: IIssueItemProps) => {
   const issueTitleProps = {
@@ -15,9 +16,10 @@ const IssueItem = ({ issue }: IIssueItemProps) => {
     avatarUrl: issue.user.avatar_url,
   };
   const navigate = useNavigate();
-  const handleNavigate = () => {
+  const handleNavigate = useCallback(() => {
     navigate(`/issues/${issue.number}`);
-  };
+  }, [navigate, issue.number]);
+
   return (
     <S.IssueItem>
       <ListItemButton onClick={handleNavigate}>
@@ -31,4 +33,5 @@ interface IIssueItemProps {
   issue: IIssueChild;
 }
 
-export default IssueItem;
+export default React.memo(IssueItem);
+
