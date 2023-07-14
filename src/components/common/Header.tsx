@@ -14,7 +14,7 @@ const Header = ({ refreshCallback }: IHeaderProps) => {
   };
   const navigate = useNavigate();
   const handleNavigateToBack = () => {
-    navigate(-1);
+    navigate('/issues');
   };
   return (
     <S.Header>

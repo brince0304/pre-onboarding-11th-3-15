@@ -1,14 +1,7 @@
-import { IIssues, IIssueChild } from '../interfaces/IIssues';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { IIssues,} from "../interfaces/IIssues";
+import {  createSlice } from '@reduxjs/toolkit';
+import {getIssueByIssueNumberThunk, getIssuesByPageThunk} from "./reduxAsyncThunks";
 
-interface IssueState {
-  page: number;
-  issues: IIssues;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: string | null;
-  hasMore: boolean;
-}
 
 export const initialState = {
   page: 1,
@@ -18,47 +11,6 @@ export const initialState = {
   hasMore: true,
 } as IssueState;
 
-export const getIssuesByPageThunk = createAsyncThunk(
-  'issues/getIssues',
-
-  async (getIssues: (page: number) => Promise<IIssues>, { getState }) => {
-    const state = getState() as RootState;
-    return await getIssues(state.issueReducer.page);
-  },
-  {
-    condition: (arg, { getState }) => {
-      const state = getState() as RootState;
-      return (
-        (state.issueReducer.loading === 'idle' || state.issueReducer.loading === 'succeeded') &&
-        state.issueReducer.hasMore
-      );
-    },
-  },
-);
-
-export const getIssueByIssueNumberThunk = createAsyncThunk(
-  'issues/getIssueByIssueNumber',
-  async (arg: { getIssueByIssueNumber: (issueNumber: number) => Promise<IIssueChild>; issueNumber: number }) => {
-    return await arg.getIssueByIssueNumber(arg.issueNumber);
-  },
-  {
-    condition: (arg, { getState }) => {
-      const state = getState() as RootState;
-      return state.issueReducer.loading === 'idle' || state.issueReducer.loading === 'succeeded';
-    },
-    dispatchConditionRejection: true,
-  },
-);
-
-export const getIssueByIssueNumberAction = (issueNumber: number) => {
-  return async (dispatch: any, getState: any) => {
-    const state = getState() as RootState;
-    const findIssue = state.issueReducer.issues.find((issue) => issue.number === issueNumber);
-    if (findIssue) {
-      return findIssue;
-    }
-  };
-};
 
 export const issueReducer = createSlice({
   name: 'issues',
@@ -82,9 +34,9 @@ export const issueReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getIssuesByPageThunk.pending, (state) => {
+    builder.addCase(getIssuesByPageThunk.pending, (state, action) => {
       state.loading = 'pending';
-      if (state.issues.length === 1) {
+      if(state.issues.length===1){
         state.issues = [];
       }
     });
@@ -106,6 +58,7 @@ export const issueReducer = createSlice({
     builder.addCase(getIssueByIssueNumberThunk.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.issues = state.issues.concat(action.payload);
+      state.issues = state.issues.sort((a, b) => b.comments - a.comments);
     });
     builder.addCase(getIssueByIssueNumberThunk.rejected, (state, action) => {
       state.loading = 'failed';
@@ -113,5 +66,13 @@ export const issueReducer = createSlice({
     });
   },
 });
+
+interface IssueState {
+  page: number;
+  issues: IIssues;
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  error: string | null;
+  hasMore: boolean;
+}
 
 export const { reset, setPage, setIssues, setError } = issueReducer.actions;
