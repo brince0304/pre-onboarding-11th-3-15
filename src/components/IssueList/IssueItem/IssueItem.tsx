@@ -19,7 +19,6 @@ const IssueItem = ({ issue }: IIssueItemProps) => {
   const handleNavigate = useCallback(() => {
     navigate(`/issues/${issue.number}`);
   }, [navigate, issue.number]);
-
   return (
     <S.IssueItem>
       <ListItemButton onClick={handleNavigate}>
