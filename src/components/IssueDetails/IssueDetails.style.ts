@@ -16,6 +16,8 @@ export const Container = styled.div`
 
 export const FixedContainer = styled.div`
   display: flex;
+  width: 478px;
+  box-sizing: border-box;
   flex-direction: column;
   position: fixed;
   top: 61px;

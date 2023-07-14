@@ -16,10 +16,10 @@ const IssueList = () => {
 
   const adBoxProps = {
     alt: '광고',
-    src: 'https://image1.marpple.co/files/u_1371660/2020/11/original/79f3b672740b1a7688b84a8bfd903bcc1b28d4431.png?w=1200&f=webp',
+    src: 'https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100',
     linkTo: 'https://www.wanted.co.kr/',
-    width: '100%',
-    height: '100%',
+    width: '478px',
+    height: '100px',
   };
 
   const observerRef = useRef<HTMLDivElement>(null);
