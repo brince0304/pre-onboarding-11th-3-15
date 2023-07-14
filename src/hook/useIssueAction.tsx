@@ -1,15 +1,14 @@
 import { useAppDispatch } from 'redux/store';
 import { IIssueChild, IIssues } from '../interfaces/IIssues';
 import {
-  getIssueByIssueNumberAction,
-  getIssueByIssueNumberThunk,
-  getIssuesByPageThunk,
   reset,
-  setError,
-} from '../redux/issueReducer';
+  setError, setIssues,
+} from "../redux/issueReducer";
 import { useIssues } from 'context/IssueContext';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import {getIssueByIssueNumberThunk, getIssuesByPageThunk} from "../redux/reduxAsyncThunks";
+import {getIssueByIssueNumberAction} from "../redux/reduxAsyncActions";
 import {apiErrorMessage} from "../utils";
 
 function useIssueAction(): IIssueContextReturn {
@@ -45,6 +44,7 @@ function useIssueAction(): IIssueContextReturn {
   };
 
   const handleRefreshCurrentPost = async (id: number) => {
+    dispatch(setIssues(issues.filter((issue) => issue.number !== id)));
     await handleDispatchGetIssueByIssueNumber(id);
     return dispatch(getIssueByIssueNumberAction(id));
   };
