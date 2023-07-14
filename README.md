@@ -298,8 +298,9 @@ builder.addCase(getIssuesByPageThunk.fulfilled, (state, action) => {
 });
 ```
 
-- 무한스크롤의 경우에는 여러번 감지되었을때 한번씩 중복으로 데이터를 요청하는 경우가 발생할 수 있었기 때문에, redux thunk의 createAsyncThunk 를 이용하여 condition 옵션에서 기존의 loading state 가 pending 중일 때는 요청을 중단하도록 구현하였습니다.
-
+- 가끔 observer가 여러번 감지되었을때 한번씩 중복으로 데이터를 요청하는 경우가 발생할 수 있었기 때문에, redux thunk의 createAsyncThunk 를 이용하여 condition 옵션에서 기존의 loading state 가 pending 중일 때는 요청을 중단하도록 구현하였습니다.
+- **캐싱 구현**을 위해 **기존에 리스트에서 상세조회 페이지로 이동시에는 리스트를 담고있는 state에서 이슈넘버를 확인해 존재하면 api요청을 진행하지 않고** 배열에서 가져와 데이터를 출력하도록 구현하고, 새로고침이나 해당 상세조회 페이지로 바로 접근하는 경우에는 api를 요청하도록 하고 중복 데이터 처리를 위해 리스트로 이동시에 해당 데이터는 배열에서 제거하도록 구현했습니다.
+- 무한스크롤의 경우에는 불러오는 데이터의 양이 많아질수록, **기존의 리스트를 계속 새로 렌더링할 수 있는 부담**이 생기기 때문에 React.memo를 사용하여 최적화를 진행하였고 결과적으로 **두배이상의 리렌더링 시간 단축**이 가능하였습니다.
 ```ts
 // issueReducer.ts
 export const getIssuesByPageThunk = createAsyncThunk(
@@ -320,6 +321,32 @@ export const getIssuesByPageThunk = createAsyncThunk(
   },
 );
 ```
+
+```ts
+// useIssueAction.tsx
+  const handleGetIssueByIssueNumber = async (id: number) => {
+  const issue = await dispatch(getIssueByIssueNumberAction(id));
+  if (issue) {
+    return issue;
+  } else {
+    await handleDispatchGetIssueByIssueNumber(id);
+    return dispatch(getIssueByIssueNumberAction(id));
+  }
+};
+```
+
+```tsx
+// IssueItem.tsx
+export default React.memo(IssueItem);
+```
+ReactMemo 적용 전
+
+![memo 사용 전](https://github.com/brince0304/pre-onboarding-11th-3-15/assets/110673427/e48ec0f9-b920-4cdb-b8e5-22e5f5a443fe)
+
+ReactMemo 적용 후
+
+![사용 후](https://github.com/brince0304/pre-onboarding-11th-3-15/assets/110673427/56106de1-7a64-46a9-8d68-0d6a8ed5ce5b)
+
 
 > ## 3. 추상화
 
