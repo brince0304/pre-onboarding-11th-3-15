@@ -1,10 +1,10 @@
 import Header from '../components/common/Header';
 import IssueList from '../components/IssueList/IssueList';
 import { Container } from '@mui/material';
-import { useIssues } from '../context/IssueContext';
+import useIssueAction from 'hook/useIssueAction';
 
 const Issues = () => {
-  const { handleResetPage } = useIssues();
+  const { handleResetPage } = useIssueAction();
   return (
     <Container>
       <Header refreshCallback={handleResetPage} />
