@@ -1,7 +1,7 @@
 # [Team 15] 3주차 - Best Practice
 <br/>
 
-## 배포 링크 https://64aed10951683f0008ca3d35--friendly-jalebi-7586b7.netlify.app/
+## 배포 링크 https://friendly-jalebi-7586b7.netlify.app/
 <br/>
 
 ## Team15 팀원 소개 🙌 
