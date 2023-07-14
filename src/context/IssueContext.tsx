@@ -1,8 +1,7 @@
-import { IIssues, IIssueChild } from '../interfaces/IIssues';
+import { IIssueChild } from '../interfaces/IIssues';
 import { createContext, ReactNode, useContext } from 'react';
 import { IGithubService } from '../services/githubService';
-import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../redux/store';
+import { useAppDispatch } from '../redux/store';
 import {
   getIssueByIssueNumberAction,
   getIssueByIssueNumberThunk,
@@ -16,9 +15,7 @@ export const useIssues = () => useContext(IssueContext);
 const IssueProvider = ({ children, issueService }: { children: ReactNode; issueService: IGithubService }) => {
   const getIssuesByPage = issueService.getIssuesByPage.bind(issueService);
   const getIssueByIssueNumber = issueService.getIssueByIssueNumber.bind(issueService);
-  const issueState = useSelector((state: RootState) => state.issueReducer);
   const dispatch = useAppDispatch();
-  const { loading, error, issues, page, hasMore } = issueState;
 
   const handleResetPage = async () => {
     dispatch(reset());
@@ -64,11 +61,6 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
     <IssueContext.Provider
       value={{
         handleGetIssues: handleGetIssuesByPage,
-        loading,
-        error,
-        issues,
-        page,
-        hasMore,
         handleResetPage,
         handleGetIssueByIssueNumber: handleGetIssueByIssueNumber,
         handleRefreshCurrentPost: handleRefreshCurrentPost,
@@ -81,11 +73,6 @@ const IssueProvider = ({ children, issueService }: { children: ReactNode; issueS
 
 interface IIssueContextReturn {
   handleGetIssues: () => void;
-  loading: string;
-  error: string | null;
-  issues: IIssues;
-  page: number;
-  hasMore: boolean;
   handleResetPage: () => void;
   handleGetIssueByIssueNumber: (id: number) => Promise<IIssueChild | undefined>;
   handleRefreshCurrentPost: (id: number) => Promise<IIssueChild | undefined>;

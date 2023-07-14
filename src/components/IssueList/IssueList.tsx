@@ -1,19 +1,18 @@
 import IssueItem from './IssueItem/IssueItem';
 import { useIssues } from '../../context/IssueContext';
+import { useEffect, useRef } from 'react';
 import * as S from './IssueList.style';
 import AdBox from '../common/list/AdBox';
 import Loading from '../common/list/Loading';
 import HasNoMore from '../common/list/HasNoMore';
 import Error from '../common/list/Error';
-import useIntersect from 'hook/useIntersect';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 const IssueList = () => {
-  const { handleGetIssues, issues, loading, hasMore } = useIssues();
-  const observerRef = useIntersect(() => hasMore && handleGetIssues());
-
-  const isPending = loading === 'pending';
-  const hasNoMore = !hasMore && loading !== 'failed';
-  const isFail = loading === 'failed';
+  const issueState = useSelector((state: RootState) => state.issueReducer);
+  const { loading, issues, hasMore } = issueState;
+  const { handleGetIssues } = useIssues();
 
   const adBoxProps = {
     alt: '광고',
@@ -21,6 +20,34 @@ const IssueList = () => {
     linkTo: 'https://www.wanted.co.kr/',
     width: '478px',
     height: '100px',
+  };
+
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+    const observer = new IntersectionObserver(handleObserver, observerOptions);
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+    return () => {
+      if (observerRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(observerRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleObserver = (entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      handleGetIssues();
+    }
   };
 
   return (
@@ -33,9 +60,9 @@ const IssueList = () => {
             return <IssueItem issue={issue} key={index} />;
           }
         })}
-      {isPending && <Loading />}
-      {hasNoMore && <HasNoMore />}
-      {isFail && <Error />}
+      {loading === 'pending' && <Loading />}
+      {!hasMore && loading !== 'failed' && <HasNoMore />}
+      {loading === 'failed' && <Error />}
       <div id="bottom" ref={observerRef}></div>
     </S.Container>
   );
