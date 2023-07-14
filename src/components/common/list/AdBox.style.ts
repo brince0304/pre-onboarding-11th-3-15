@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
 
 export const Image = styled.img`
+  width:100%;
+  height:100%;
+  object-fit:contain;
   opacity: 0.8;
   cursor: pointer;
 `;
 
-export const Container = styled.div`
+export const Container = styled.a`
   width: 100%;
   height: 100%;
   display: flex;
@@ -13,10 +16,13 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  overflow: hidden;
+  margin:0 auto;
   &:hover {
     > img {
       opacity: 1;
-      transition: all 0.3s ease;
+      transform: scale(1.05);
+      transition: all 0.3s ease-out;
     }
   }
 `;

@@ -1,15 +1,16 @@
-import IssueDetails from '../components/IssueDetails/IssueDetails';
-import { useParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { IIssueChild } from '../interfaces/IIssues';
-import { useIssues } from '../context/IssueContext';
 import Header from '../components/common/Header';
 import IssueLoading from '../components/IssueDetails/IssueLoading';
+import IssueDetails from '../components/IssueDetails/IssueDetails';
 import IssueError from '../components/IssueDetails/IssueError';
+import useIssueAction from 'hook/useIssueAction';
 
 const Detail = () => {
   const { issueNumber } = useParams();
-  const { handleGetIssueByIssueNumber, loading, handleRefreshCurrentPost } = useIssues();
+  const { handleGetIssueByIssueNumber, handleRefreshCurrentPost, loading } = useIssueAction();
+
   const [issue, setIssue] = useState<IIssueChild>();
   const fetch = useCallback(async () => {
     const issue = await handleGetIssueByIssueNumber(Number(issueNumber));
@@ -25,6 +26,7 @@ const Detail = () => {
     handleScrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleRefreshCallback = async () => {
     setIssue(undefined);
     const newIssue = await handleRefreshCurrentPost(Number(issueNumber));
