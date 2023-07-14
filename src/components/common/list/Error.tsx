@@ -1,9 +1,11 @@
 import * as S from './ListStatus.style';
+import useIssueAction from "../../../hook/useIssueAction";
 
 const Error = () => {
+    const {error} = useIssueAction();
   return (
     <S.Container>
-      <S.ErrorText>😭 에러가 발생했습니다. 😭</S.ErrorText>
+      <S.ErrorText>{error}</S.ErrorText>
     </S.Container>
   );
 };

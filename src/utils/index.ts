@@ -21,3 +21,5 @@ export const getIssueURL = (issueNumber: number,owner:string, repo: string): str
       .replace('{issue_number}', issueNumber + '');
 };
 
+export const apiLoadingMessage = '☺️ 로딩중... ☺️'
+export const apiErrorMessage = '😭 에러가 발생했습니다. 😭'

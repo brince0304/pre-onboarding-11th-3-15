@@ -10,6 +10,7 @@ import {
 import { useIssues } from 'context/IssueContext';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import {apiErrorMessage} from "../utils";
 
 function useIssueAction(): IIssueContextReturn {
   const { getIssuesByPage, getIssueByIssueNumber } = useIssues();
@@ -27,7 +28,7 @@ function useIssueAction(): IIssueContextReturn {
     try {
       await dispatch(getIssuesByPageThunk(getIssuesByPage)).unwrap();
     } catch (e) {
-      dispatch(setError(e));
+      dispatch(setError(apiErrorMessage));
     }
   };
   const handleDispatchGetIssueByIssueNumber = async (id: number) => {
@@ -39,7 +40,7 @@ function useIssueAction(): IIssueContextReturn {
         }),
       ).unwrap();
     } catch (e) {
-      dispatch(setError(e));
+      dispatch(setError(apiErrorMessage));
     }
   };
 
