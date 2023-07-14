@@ -1,5 +1,6 @@
 import { IIssues, IIssueChild } from '../interfaces/IIssues';
 import { IHttpClient } from '../client/httpClient';
+import {getIssuesURL, getIssueURL} from "../utils";
 
 export interface IGithubService {
   getIssuesByPage(page: number): Promise<IIssues>;
@@ -15,25 +16,13 @@ export class GithubService implements IGithubService {
     this.owner = owner;
     this.repo = repo;
   }
-  getIssuesURL(page: number): string {
-    return getIssuesURL
-      .replace('{owner}', this.owner)
-      .replace('{repo}', this.repo)
-      .replace('{page}', page + '');
-  }
-  getIssueURL = (issueNumber: number): string => {
-    return getIssueURL
-      .replace('{owner}', this.owner)
-      .replace('{repo}', this.repo)
-      .replace('{issue_number}', issueNumber + '');
-  };
+
   async getIssuesByPage(page: number): Promise<IIssues> {
-    return await this.httpClient.get(this.getIssuesURL(page));
+    return await this.httpClient.get(getIssuesURL(page,this.owner,this.repo));
   }
   async getIssueByIssueNumber(issueNumber: number): Promise<IIssueChild> {
-    return await this.httpClient.get(this.getIssueURL(issueNumber));
+    return await this.httpClient.get(getIssueURL(issueNumber,this.owner,this.repo));
   }
 }
 
-const getIssuesURL = '/repos/{owner}/{repo}/issues?sort=comments&state=open&per_page=10&page={page}';
-const getIssueURL = '/repos/{owner}/{repo}/issues/{issue_number}';
+

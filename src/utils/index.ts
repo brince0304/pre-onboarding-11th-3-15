@@ -5,3 +5,19 @@ export const formatDate = (date: string) => {
   const day = newDate.getDate();
   return `${year}년 ${month}월 ${day}일`;
 };
+const issuesURL = '/repos/{owner}/{repo}/issues?sort=comments&state=open&per_page=10&page={page}';
+const issueURL = '/repos/{owner}/{repo}/issues/{issue_number}';
+
+export const getIssuesURL= (page: number, owner:string, repo: string) : string => {
+  return issuesURL
+      .replace('{owner}', owner)
+      .replace('{repo}', repo)
+      .replace('{page}', page + '');
+}
+export const getIssueURL = (issueNumber: number,owner:string, repo: string): string => {
+  return issueURL
+      .replace('{owner}', owner)
+      .replace('{repo}', repo)
+      .replace('{issue_number}', issueNumber + '');
+};
+
