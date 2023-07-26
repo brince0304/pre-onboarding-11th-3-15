@@ -28,7 +28,7 @@ const Detail = () => {
   }, []);
 
   const handleRefreshCallback = async () => {
-    setIssue(undefined);
+    setIssue({} as IIssueChild);
     const newIssue = await handleRefreshCurrentPost(Number(issueNumber));
     setIssue(newIssue);
   };

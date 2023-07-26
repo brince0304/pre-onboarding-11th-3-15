@@ -12,9 +12,9 @@ export const getIssuesByPageThunk = createAsyncThunk(
         condition: (arg, { getState }) => {
             const state = getState() as RootState;
             return (
-                (state.issueReducer.loading === 'idle' || state.issueReducer.loading === 'succeeded') &&
-                state.issueReducer.hasMore
-            );
+                state.issueReducer.loading === 'idle' ||
+                state.issueReducer.loading === 'succeeded' ||
+                state.issueReducer.loading === 'failed');
         },
     },
 );

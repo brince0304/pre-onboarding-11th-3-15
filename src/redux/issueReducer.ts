@@ -35,6 +35,7 @@ export const issueReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getIssuesByPageThunk.pending, (state, action) => {
+      state.error = null;
       state.loading = 'pending';
       if(state.issues.length===1){
         state.issues = [];
@@ -53,6 +54,7 @@ export const issueReducer = createSlice({
       state.hasMore = false;
     });
     builder.addCase(getIssueByIssueNumberThunk.pending, (state) => {
+      state.error = null;
       state.loading = 'pending';
     });
     builder.addCase(getIssueByIssueNumberThunk.fulfilled, (state, action) => {
